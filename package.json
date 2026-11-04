@@ -1,0 +1,19 @@
+{
+  "name": "excalidraw-skill",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Render hand-authored .excalidraw scenes to PNG/SVG using the real Excalidraw engine in headless Chromium.",
+  "bin": {
+    "excalidraw-render": "./render.mjs"
+  },
+  "scripts": {
+    "render": "node render.mjs"
+  },
+  "dependencies": {
+    "@excalidraw/excalidraw": "^0.17.6",
+    "puppeteer": "^23.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
