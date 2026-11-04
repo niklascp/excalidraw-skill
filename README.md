@@ -14,34 +14,37 @@ so rendered PNG and SVG output matches the hand-drawn editor style.
 ## Requirements
 
 - Node.js and npm
-- GitHub CLI (`gh`) authenticated to the account that can access this private
-  repository
+- `npx` (included with npm)
 
-Check authentication before installing:
+## Install with `npx skills`
+
+The `skills` CLI registers the skill with supported agents. It creates
+symlinks by default, so one managed copy can be shared. Add `--copy` if you
+want independent copies instead.
+
+Because this repository has `SKILL.md` at its root, pass the repository
+directly:
 
 ```bash
-gh auth status
+npx skills add niklascp/excalidraw-skill \
+  --agent claude-code --global --yes
+
+npx skills add niklascp/excalidraw-skill \
+  --agent github-copilot --global --yes
 ```
 
-If you use more than one GitHub account, switch to the account that owns this
-repository:
+The `--global` flag makes the skill available across projects. Omit it for a
+project-local installation.
+
+The JavaScript helpers also need their npm dependencies and Chromium. Find the
+managed `excalidraw` directory with `npx skills list --global`, then run:
 
 ```bash
-gh auth switch --hostname github.com --user niklascp
-```
-
-## Install in Claude Code
-
-Install the skill for all Claude Code projects on the machine:
-
-```bash
-gh skill install niklascp/excalidraw-skill SKILL.md \
-  --agent claude-code --scope user
-
-cd ~/.claude/skills/excalidraw
 npm install
 npx puppeteer browsers install chrome
 ```
+
+## Claude Code
 
 Start a new Claude Code session. Invoke the skill explicitly with:
 
@@ -52,18 +55,7 @@ Start a new Claude Code session. Invoke the skill explicitly with:
 You can also ask Claude to create or render an Excalidraw diagram; it will
 load the skill automatically when the request matches its description.
 
-## Install in GitHub Copilot CLI
-
-Install the skill for all Copilot CLI projects on the machine:
-
-```bash
-gh skill install niklascp/excalidraw-skill SKILL.md \
-  --agent github-copilot --scope user
-
-cd ~/.copilot/skills/excalidraw
-npm install
-npx puppeteer browsers install chrome
-```
+## GitHub Copilot CLI
 
 If Copilot CLI is already running, reload skills:
 
@@ -83,8 +75,8 @@ Invoke it directly with:
 /excalidraw
 ```
 
-The explicit `SKILL.md` argument is intentional: this repository keeps the
-skill at its root rather than under a `skills/<name>/` directory.
+The repository keeps the skill at its root rather than under a
+`skills/<name>/` directory.
 
 ## Basic usage
 
@@ -101,16 +93,17 @@ For a complete authoring reference, see [`SKILL.md`](SKILL.md).
 
 ## Updating
 
-Re-run the relevant `gh skill install` command with `--force`, then reinstall
-dependencies if `package.json` changed:
+Update the installed skill with:
 
 ```bash
-gh skill install niklascp/excalidraw-skill SKILL.md \
-  --agent github-copilot --scope user --force
+npx skills update excalidraw --global
 ```
+
+Re-run `npm install` if `package.json` changed.
 
 ## Official documentation
 
 - [Claude Code skills](https://code.claude.com/docs/en/skills)
 - [Adding agent skills for GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills)
 - [`gh skill install` reference](https://cli.github.com/manual/gh_skill_install)
+- [`skills` CLI documentation](https://skills.sh/docs)
